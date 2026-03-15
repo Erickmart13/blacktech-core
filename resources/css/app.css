@@ -3,5 +3,16 @@
 @tailwind utilities;
 
 [x-cloak] {
-    display: none;
+    display: none !important;
+}
+
+
+.pg-toggle input:checked+div {
+    background-color: #10b981;
+    /* verde */
+}
+
+.pg-toggle div {
+    background-color: #d1d5db;
+    /* gris */
 }

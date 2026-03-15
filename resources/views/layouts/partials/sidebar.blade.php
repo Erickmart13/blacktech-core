@@ -14,7 +14,7 @@
         {{-- Dashboard --}}
         @can('dashboard.inicio')
             <li class="pt-2 pl-2">
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('system.dashboard') }}"
                     class="flex items-center w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-blue-700">
@@ -112,22 +112,44 @@
                     {{-- Roles --}}
                     @can('roles.inicio')
                         <li class="mt-1 w-full pr-2 pl-2">
-                            <a href="{{ route('roles.index') }}"
+                            <a href="#"
                                 class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('roles.*') ? 'bg-gray-300' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="size-6 text-purple-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-purple-500" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                    <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
                                 </svg>
                                 <span class="font-light">Roles</span>
+                            </a>
+                        </li>
+                    @endcan
+                    {{-- Permisos --}}
+                    @can('permisos.inicio')
+                        <li class="mt-1 w-full pr-2 pl-2">
+                            <a href="{{ route('system.permissions.index') }}"
+                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('system.permissions.*') ? 'bg-gray-300' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-fuchsia-500" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+                                    <path d="M15 19l2 2l4 -4" />
+                                </svg>
+                                <span class="font-light">Permisos</span>
                             </a>
                         </li>
                     @endcan
                     @can('sistema.inicio')
                         {{-- sistema --}}
                         <li class="mt-1 w-full pr-2 pl-2 pb-2">
-                            <a href="{{ route('system.index') }}"
-                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('system.*') ? 'bg-gray-300' : '' }}">
+                            <a href="#"
+                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('system.system.*') ? 'bg-gray-300' : '' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-6 text-slate-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
