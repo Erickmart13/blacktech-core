@@ -30,7 +30,21 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        //
+
+
+        // // Verificar que exista al menos un estado "Activo" para Cliente
+        // $statusApplication = StatusApplication::where('applies_to', 'Usuario')
+        //     ->where('is_active', true)
+        //     ->whereHas('status', function ($q) {
+        //         $q->where('code', 'ACTIVO'); // 👈 mejor usar 'code' que 'name'
+        //     })
+        //     ->first();
+        // if (! $statusApplication) {
+        //     return redirect()
+        //         ->route('users.index') // o a donde quieras redirigir
+        //         ->with('warning', 'Deben existir el estado Activo asigando a Cliente, por favor asigne dicho estado para registrar un cliente.');
+
+        return view('admin.modules.create');
     }
 
     /**
@@ -38,7 +52,24 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $request->validate([
+            'name' => 'required|string|max:255',
+            
+        ]);
+
+        // // Estado ACTIVO
+        // $status = StatusApplication::whereHas('status', fn($q) => $q->where('code', 'ACTIVO'))
+        //     ->where('applies_to', 'Usuario')
+        //     ->where('is_active', true)
+        //     ->firstOrFail();
+
+        $module = Module::create([
+            'name'     => $request->name,
+            
+        ]);
+
+        session()->flash('success', 'El usuario ' . $module->name . ' fue creado correctamente.');
+        return redirect()->route('admin.modules.index');
     }
 
     /**
