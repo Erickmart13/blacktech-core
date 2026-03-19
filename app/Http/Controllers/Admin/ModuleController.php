@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin\Module;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 
 class ModuleController extends Controller
 {
@@ -33,13 +34,13 @@ class ModuleController extends Controller
 
 
         // // Verificar que exista al menos un estado "Activo" para Cliente
-        // $statusApplication = StatusApplication::where('applies_to', 'Usuario')
+        //  $moduleApplication = StatusApplication::where('applies_to', 'Usuario')
         //     ->where('is_active', true)
         //     ->whereHas('status', function ($q) {
         //         $q->where('code', 'ACTIVO'); // 👈 mejor usar 'code' que 'name'
         //     })
         //     ->first();
-        // if (! $statusApplication) {
+        // if (! $moduleApplication) {
         //     return redirect()
         //         ->route('users.index') // o a donde quieras redirigir
         //         ->with('warning', 'Deben existir el estado Activo asigando a Cliente, por favor asigne dicho estado para registrar un cliente.');
@@ -52,9 +53,9 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
-            
+
         ]);
 
         // // Estado ACTIVO
@@ -65,42 +66,80 @@ class ModuleController extends Controller
 
         $module = Module::create([
             'name'     => $request->name,
-            
+
         ]);
 
-        session()->flash('success', 'El usuario ' . $module->name . ' fue creado correctamente.');
+        session()->flash('success', 'El módulo ' . $module->name . ' fue creado correctamente.');
         return redirect()->route('admin.modules.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Module $module)
+    public function show($id)
     {
-        //
+        $module = Module::findOrFail($id);
+
+        return view('admin.modules.show', compact('module'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Module $module)
+    public function edit($id)
+
     {
-        //
+        $module = Module::findOrFail($id);
+        return view('admin.modules.edit', compact('module'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Module $module)
+    public function update(Request $request, $id)
     {
-        //
+        $module = Module::findOrFail($id);
+
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('modules', 'name')->ignore($module->id),
+            ],
+            'code' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('modules', 'code')->ignore($module->id),
+            ],
+            'order' => [
+                'required',
+                'numeric',
+            ],
+            'is_active' => 'required|boolean',
+        ]);
+
+        $module->update([
+            'name' => $request->name,
+            'code' => $request->code,
+            'order' => $request->order,
+            'is_active' => $request->is_active
+        ]);
+
+        return redirect()->route('admin.modules.index')
+            ->with('success', 'El módulo ' .  $module->name . ' fue actualizado correctamente');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Module $module)
+    public function destroy($id)
     {
-        //
+        $module = Module::findOrFail($id);
+        $name = $module->name;
+
+        $module->delete();
+        return redirect()->back()->with('success', "El módulo {$name} fue eliminado exitosamente");
     }
 }

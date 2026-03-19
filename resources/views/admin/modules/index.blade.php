@@ -21,9 +21,10 @@
         @if (session()->has('warning'))
             <x-alert type="warning" :message="session('warning')" />
         @endif
-        @livewire('admin.permission-table')
-        <x-modal-global id="delete-record" title="Eliminar Rol" message="¿Seguro que deseas eliminar este rol?"
-            :route="route('admin.modules.destroy', '__ID__')" />
+        @livewire('admin.module-table')
+       <x-modal-global id="delete-record" title="Eliminar registro" method="DELETE"
+            message="¿Seguro que deseas eliminar este registro?" buttonText="Eliminar"
+            buttonColor="bg-red-600 hover:bg-red-700" :route="route('admin.modules.destroy', '__ID__')" />
     </div>
 
 

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);
-
             // Auditoría
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
             $table->timestamps();
         });
     }
