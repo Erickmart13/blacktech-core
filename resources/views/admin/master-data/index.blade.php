@@ -39,14 +39,14 @@
                         </a>
                     @endcan
 
-                    {{-- @can('estadosAsignar.inicio')
-                        <a href="{{ route('system.status-applications.index') }}"
+                    @can('estadosAsignar.inicio')
+                        <a href="{{ route('admin.master-data.status-applications.index') }}"
                             class="p-4 bg-white border-2 rounded-xl shadow hover:bg-gray-300 transition">
                             <h2 class="font-semibold">Asignación de estados</h2>
                             <p class="text-sm text-gray-600">Gestión de asignación estados.
                             </p>
                         </a>
-                    @endcan --}}
+                    @endcan
 
 
 

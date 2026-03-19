@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\MasterData\StatusApplicationController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\MasterData\StatusController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +31,7 @@ Route::middleware(['auth', 'verified'])
                             ->name('index');
 
                         Route::resource('statuses', StatusController::class);
+                        Route::resource('status-applications', StatusApplicationController::class);
                     });
             });
     });

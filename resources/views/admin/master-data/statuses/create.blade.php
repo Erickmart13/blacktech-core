@@ -8,7 +8,8 @@
                 d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
         </svg>
         <h2 class="text-lg font-bold">Crear nuevo tipo de estado</h2>
-        <x-button-navigation-return class="ml-auto" href="{{ route('admin.master-data.statuses.index') }}">Regresar</x-button>
+        <x-button-navigation-return class="ml-auto"
+            href="{{ route('admin.master-data.statuses.index') }}">Regresar</x-button>
     </div>
 
     <div class="border-2 p-2 lg:mx-5 shadow-xl">
@@ -30,9 +31,6 @@
                     <select id="name" name="name" class="border rounded p-2 w-full">
                         <optgroup label="General">
                             <option value="">Seleccione</option>
-                            <option value="Activo" {{ old('name') == 'Activo' ? 'selected' : '' }}>Activo</option>
-                            <option value="Inactivo" {{ old('name') == 'Inactivo' ? 'selected' : '' }}>Inactivo
-                            </option>
                             <option value="Pendiente" {{ old('name') == 'Pendiente' ? 'selected' : '' }}>Pendiente
                             </option>
                             <option value="En proceso" {{ old('name') == 'En proceso' ? 'selected' : '' }}>En

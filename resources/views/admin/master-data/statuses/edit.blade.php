@@ -32,11 +32,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre</label>
                     <select id="name" name="name" class="border rounded p-2 w-full">
                         <optgroup label="General">
-                            <option value="Activo" {{ old('name', $status->name) === 'Activo' ? 'selected' : '' }}>
-                                Activo</option>
-                            <option value="Inactivo" {{ old('name', $status->name) === 'Inactivo' ? 'selected' : '' }}>
-                                Inactivo
-                            </option>
+                           
                             <option value="Pendiente"
                                 {{ old('name', $status->name) === 'Pendiente' ? 'selected' : '' }}>Pendiente
                             </option>

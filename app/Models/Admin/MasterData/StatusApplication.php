@@ -2,24 +2,25 @@
 
 namespace App\Models\Admin\MasterData;
 
-use App\Concerns\GeneratesCode;
 use App\Concerns\HasAuditable;
-use App\Models\Admin\MasterData\StatusApplication;
+use App\Models\Admin\MasterData\Status;
 use App\Models\Admin\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Status extends Model
+class StatusApplication extends Model
 {
     use HasFactory;
-    use GeneratesCode;
     use HasAuditable;
 
     protected $fillable = [
-        'name',
-        'code',
+        'applies_to',
+        'status_id',
         'is_active'
     ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -30,8 +31,13 @@ class Status extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function statusApplication()
+    public function status(): BelongsTo
     {
-        return $this->hasMany(StatusApplication::class, 'status_id');
+        return $this->belongsTo(Status::class);
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'status_application_id');
     }
 }

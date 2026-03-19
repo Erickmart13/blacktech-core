@@ -12,7 +12,7 @@
             <h2 class="text-lg font-bold">Tipo de Estados</h2>
         </div>
         <div>
-            <x-button-navigation-return class="mr-1" href="{{ route('admin.master-data.index') }}">Regresar</x-button-retorn>
+            <x-button-navigation-return class="mr-1" href="{{ route('admin.master-data.index') }}">Regresar</x-button-navigation-go>
             <x-button-navigation-go class="ml-auto" href="{{ route('admin.master-data.statuses.create') }}">Nuevo</x-button>
         </div>
     </div>

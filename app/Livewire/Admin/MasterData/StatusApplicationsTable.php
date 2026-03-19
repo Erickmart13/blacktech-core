@@ -3,9 +3,11 @@
 namespace App\Livewire\Admin\MasterData;
 
 use App\Models\Admin\MasterData\Status;
+use App\Models\Admin\MasterData\StatusApplication;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -13,9 +15,9 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
-final class StatusesTable extends PowerGridComponent
+final class StatusApplicationsTable extends PowerGridComponent
 {
-    public string $tableName = 'statusesTable';
+    public string $tableName = 'statusApplicationsTable';
 
     public function setUp(): array
     {
@@ -32,18 +34,17 @@ final class StatusesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Status::query();
+
+        return StatusApplication::query()
+            ->join('statuses', function ($statuses) {
+                $statuses->on('status_applications.status_id', '=', 'statuses.id');
+            })
+            ->select([
+                'status_applications.*',
+                'statuses.name as status_name',
+            ]);
     }
 
-
-    public function beforeSearchIsActive($search)
-    {
-        return match (strtolower(trim($search))) {
-            'activo' => '1',
-            'inactivo' => '0',
-            default => $search,
-        };
-    }
     public function relationSearch(): array
     {
         return [];
@@ -53,28 +54,31 @@ final class StatusesTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('name')
-            ->add('code')
+            ->add('applies_to')
+            ->add('status_id')
+            ->add('status_name')
             ->add('is_active')
-            ->add('status_label', fn($model) => $model->is_active ? 'Activo' : 'Inactivo')
+            ->add('created_at')
             ->add('created_at_formatted', function ($model) {
                 return Carbon::parse($model->created_at)->format('Y-m-d');
-            });
+            })
+            ->add('status_name_entidad', fn($row) => $row->status_name_entidad_sql)
+        ;
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Nombre', 'name')
+            Column::make('Entidad', 'applies_to')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Código', 'code')
+            Column::make('Estado Entidad', 'status_name', 'statuses.name')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Fecha Creación', 'created_at_formatted', 'created_at')
+            Column::make('Creación', 'created_at_formatted', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -82,15 +86,9 @@ final class StatusesTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->toggleable(),
-            Column::action('Accciones')
-        ];
-    }
 
-    public function onUpdatedToggleable(string|int $id, string $field, string $value): void
-    {
-        Status::query()->find($id)->update([
-            $field => e($value),
-        ]);
+            Column::action('Acciones')
+        ];
     }
 
     public function filters(): array
@@ -98,8 +96,23 @@ final class StatusesTable extends PowerGridComponent
         return [];
     }
 
+    public function beforeSearchIsActive($search)
+    {
+        return match (strtolower(trim($search))) {
+            'activo' => '1',
+            'inactivo' => '0',
+            default => $search,
+        };
+    }
 
-    public function actions(Status $row): array
+    public function onUpdatedToggleable(string|int $id, string $field, string $value): void
+    {
+        StatusApplication::query()->find($id)->update([
+            $field => e($value),
+        ]);
+    }
+
+    public function actions(StatusApplication $row): array
     {
         $buttons = [];
         /** @var \App\Models\Amin\User $user */
@@ -120,7 +133,7 @@ final class StatusesTable extends PowerGridComponent
                         Ver
                     </span>'
                 )
-                ->route('admin.master-data.statuses.show', ['status' => $row->id]);
+                ->route('admin.master-data.status-applications.show', ['status_application' => $row->id]);
         }
         //Solo mostrar si el usuario tiene permiso de editar
         if ($user && $user->can('sistema.inicio')) {
@@ -137,7 +150,7 @@ final class StatusesTable extends PowerGridComponent
                         Editar
                         </span>'
                 )
-                ->route('admin.master-data.statuses.edit', ['status' => $row->id]);
+                ->route('admin.master-data.status-applications.edit', ['status_application' => $row->id]);
         }
         // Solo mostrar si el usuario tiene permiso para eliminar
         if ($user && $user->can('sistema.inicio')) {
@@ -145,7 +158,7 @@ final class StatusesTable extends PowerGridComponent
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
                 ->attributes([
-                    'onclick' => "openModal('delete-record', {$row->id}, '" . route('admin.master-data.statuses.destroy', $row->id) . "')",
+                    'onclick' => "openModal('delete-record', {$row->id}, '" . route('admin.master-data.status-applications.destroy', $row->id) . "')",
                     'type'    => 'button',
                 ])
                 ->slot(
