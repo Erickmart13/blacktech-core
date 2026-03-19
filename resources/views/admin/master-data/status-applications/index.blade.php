@@ -17,9 +17,9 @@
         </div>
         <div>
             <x-button-navigation-return class="mr-1"
-                href="{{ route('admin.master-data.index') }}">Regresar</x-button-navigation-go>
+                href="{{ route('admin.master-data.index') }}">Regresar</x-button-navigation-return>
                 <x-button-navigation-go class="ml-auto"
-                    href="{{ route('admin.master-data.status-applications.create') }}">Asignar</x-button>
+                    href="{{ route('admin.master-data.status-applications.create') }}">Asignar</x-button-navigation-go>
         </div>
     </div>
     <div class="border-2 p-2 lg:mx-5 shadow-xl">

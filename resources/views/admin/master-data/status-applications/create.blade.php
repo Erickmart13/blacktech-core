@@ -13,7 +13,7 @@
         </svg>
         <h2 class="text-lg font-bold">Asignar estado a entidad</h2>
         <x-button-navigation-return class="ml-auto"
-            href="{{ route('admin.master-data.status-applications.index') }}">Regresar</x-button>
+            href="{{ route('admin.master-data.status-applications.index') }}">Regresar</x-button-navigation-return>
     </div>
 
     <div class="border-2 p-2 lg:mx-5 shadow-xl">
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="mb-3 md:px-3 md:mt-5">
-                    <x-button class="text-ellipsis">Guardar</x-button-save>
+                    <x-button class="text-ellipsis">Guardar</x-button>
                 </div>
             </div>
         </form>

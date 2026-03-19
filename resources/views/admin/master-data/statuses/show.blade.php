@@ -9,7 +9,7 @@
         </svg>
         <h2 class="text-lg font-bold">Ver Egreso</h2>
         <x-button-navigation-return class="ml-auto"
-            href="{{ route('admin.master-data.statuses.index') }}">Regresar</x-button>
+            href="{{ route('admin.master-data.statuses.index') }}">Regresar</x-button-navigation-return>
     </div>
 
     <div class="border-2 p-2 lg:mx-5 shadow-xl">
@@ -66,7 +66,7 @@
                 <div class="mb-3 px-5 md:px-5 mt-2 md:mt-5">
                     <x-button-navigation-go
                         class="text-ellipsis bg-lime-600 hover:bg-lime-700 focus:bg-lime-800 active:bg-lime-700  focus:ring-lime-500"
-                        href="{{ route('admin.master-data.statuses.edit', $status->id) }}">Editar</x-button>
+                        href="{{ route('admin.master-data.statuses.edit', $status->id) }}">Editar</x-button-navigation-go>
                 </div>
             </div>
         </div>

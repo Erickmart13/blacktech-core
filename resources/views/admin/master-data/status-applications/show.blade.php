@@ -13,7 +13,7 @@
         </svg>
         <h2 class="text-lg font-bold">Ver Aplicación de estado</h2>
         <x-button-navigation-return class="ml-auto"
-            href="{{ route('admin.master-data.status-applications.index') }}">Regresar</x-button>
+            href="{{ route('admin.master-data.status-applications.index') }}">Regresar</x-button-navigation-return>
     </div>
 
     <div class="border-2 p-2 lg:mx-5 shadow-xl">
