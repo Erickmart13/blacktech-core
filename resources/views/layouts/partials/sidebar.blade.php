@@ -77,7 +77,7 @@
         <div class="border-t border-gray-200 my-2"></div>
         {{-- Administración --}}
         @canany(['usuarios.inicio', 'roles.inicio', 'sistema.inicio', 'modulos.ver'])
-            <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('users.*') || request()->routeIs('admin.modules.*') || request()->routeIs('roles.*') || request()->routeIs('system.*') ? 'true' : 'false' }} }">
+            <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('users.*') || request()->routeIs('admin.modules.*') || request()->routeIs('roles.*') || request()->routeIs('admin.master-data.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
                     <div class="flex items-center gap-3">
@@ -160,11 +160,11 @@
                             </a>
                         </li>
                     @endcan
-                    @can('sistema.inicio')
+                    @can('datosMaestros.ver')
                         {{-- sistema --}}
                         <li class="mt-1 w-full pr-2 pl-2 pb-2">
                             <a href="{{ route('admin.master-data.index') }}"
-                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('system.system.*') ? 'bg-gray-300' : '' }}">
+                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.master-data.*') ? 'bg-gray-300' : '' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-6 text-slate-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"

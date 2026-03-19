@@ -34,13 +34,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             // Roles
-            [
-                'name' => 'roles.inicio',
-                'type' => 'Roles',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+           
             [
                 'name' => 'roles.crear',
                 'type' => 'Roles',
@@ -72,13 +66,6 @@ class RolesAndPermissionsSeeder extends Seeder
             // Permisos
             
             [
-                'name' => 'modulos.inicio',
-                'type' => 'Modulos',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'name' => 'modulos.crear',
                 'type' => 'Modulos',
                 'guard_name' => 'web',
@@ -109,13 +96,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
 
             // Operaciones
-            [
-                'name' => 'operaciones.inicio',
-                'type' => 'Operaciones',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+
             [
                 'name' => 'operaciones.crear',
                 'type' => 'Operaciones',
@@ -169,13 +150,6 @@ class RolesAndPermissionsSeeder extends Seeder
 
             // Usuarios
             [
-                'name' => 'usuarios.inicio',
-                'type' => 'Usuarios',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'name' => 'usuarios.crear',
                 'type' => 'Usuarios',
                 'guard_name' => 'web',
@@ -205,13 +179,6 @@ class RolesAndPermissionsSeeder extends Seeder
             ],
 
             //Bancos
-            [
-                'name' => 'bancos.inicio',
-                'type' => 'Bancos',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
             [
                 'name' => 'bancos.crear',
                 'type' => 'Bancos',
@@ -243,13 +210,6 @@ class RolesAndPermissionsSeeder extends Seeder
 
             //Ciudad
             [
-                'name' => 'ciudad.inicio',
-                'type' => 'Ciudad',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'name' => 'ciudad.crear',
                 'type' => 'Ciudad',
                 'guard_name' => 'web',
@@ -279,13 +239,6 @@ class RolesAndPermissionsSeeder extends Seeder
             ],
             //Tipos de docuemntos de identidad
             [
-                'name' => 'dIdentidad.inicio',
-                'type' => 'Documentos de Identidad',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'name' => 'dIdentidad.crear',
                 'type' => 'Documentos de Identidad',
                 'guard_name' => 'web',
@@ -313,16 +266,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-
             //Provincias
-            [
-                'name' => 'provincias.inicio',
-                'type' => 'Provincias',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
             [
                 'name' => 'provincias.crear',
                 'type' => 'Provincias',
@@ -351,16 +295,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-
             //Asignar estados
-            [
-                'name' => 'estadosAsignar.inicio',
-                'type' => 'Asignar estados',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
             [
                 'name' => 'estadosAsignar.crear',
                 'type' => 'Asignar estados',
@@ -390,13 +325,6 @@ class RolesAndPermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             //Tipos de estados
-            [
-                'name' => 'estados.inicio',
-                'type' => 'Tipos de estados',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
             [
                 'name' => 'estados.crear',
                 'type' => 'Tipos de estados',
@@ -433,6 +361,13 @@ class RolesAndPermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'datosMaestros.ver',
+                'type' => 'Datos Maestros',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         // 🔄 Crear o actualizar los permisos
@@ -455,7 +390,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // === Asignar permisos ===
         $admin->syncPermissions(\Spatie\Permission\Models\Permission::all());
-        $operador->syncPermissions(['operaciones.inicio', 'operaciones.ver']);
+        $operador->syncPermissions(['operaciones.ver', 'operaciones.ver']);
 
         // === Asignar rol al usuario 1 ===
         $user = User::find(1);

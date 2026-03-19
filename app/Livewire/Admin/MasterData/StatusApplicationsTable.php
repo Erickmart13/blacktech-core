@@ -118,7 +118,7 @@ final class StatusApplicationsTable extends PowerGridComponent
         /** @var \App\Models\Amin\User $user */
         $user = Auth::user();
         //Solo mostrar si el usuario tiene permiso de ver
-        if ($user && $user->can('sistema.inicio')) {
+        if ($user && $user->can('estadosAsignar.ver')) {
             $buttons[] = Button::add('show')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -136,7 +136,7 @@ final class StatusApplicationsTable extends PowerGridComponent
                 ->route('admin.master-data.status-applications.show', ['status_application' => $row->id]);
         }
         //Solo mostrar si el usuario tiene permiso de editar
-        if ($user && $user->can('sistema.inicio')) {
+        if ($user && $user->can('estadosAsignar.editar')) {
             $buttons[] = Button::add('edit')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -153,7 +153,7 @@ final class StatusApplicationsTable extends PowerGridComponent
                 ->route('admin.master-data.status-applications.edit', ['status_application' => $row->id]);
         }
         // Solo mostrar si el usuario tiene permiso para eliminar
-        if ($user && $user->can('sistema.inicio')) {
+        if ($user && $user->can('estadosAsignar.eliminar')) {
             $buttons[] =  Button::add('destroy')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')

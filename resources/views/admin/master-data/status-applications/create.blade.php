@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('page-title', 'Administración - Sistema')
+    @section('page-title', 'Administración - Datos Maestros')
 
     <div class="flex p-4 mr-4 pl-6 px-3 gap-2 ">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

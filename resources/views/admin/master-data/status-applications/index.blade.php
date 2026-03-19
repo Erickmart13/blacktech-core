@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('page-title', 'Administración - Sistema')
+    @section('page-title', 'Administración - Datos Maestros')
 
     <div class="flex justify-between p-4 mr-4 pl-6 px-3 gap-2 ">
         <div class="flex gap-2">
