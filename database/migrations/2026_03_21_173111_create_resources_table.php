@@ -38,7 +38,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['module_id', 'code']);
+            $table->unique(['code']);
         });
     }
 

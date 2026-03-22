@@ -6,6 +6,7 @@ use App\Models\Admin\Module;
 use App\Models\Admin\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 
 class ResourceController extends Controller
 {
@@ -74,7 +75,15 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
-        //
+        $modules = Module::orderBy('order')->get();
+
+        // Traemos todos los posibles padres dentro del mismo módulo, excluyendo el recurso actual
+        $parents = Resource::where('module_id', $resource->module_id)
+            ->where('id', '<>', $resource->id)
+            ->orderBy('order')
+            ->get();
+
+        return view('admin.resources.edit', compact('resource', 'modules', 'parents'));
     }
 
     /**
@@ -82,7 +91,38 @@ class ResourceController extends Controller
      */
     public function update(Request $request, Resource $resource)
     {
-        //
+        $request->validate([
+            'module_id' => ['required', 'exists:modules,id'],
+            'parent_id' => ['nullable', 'exists:resources,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'code' => [
+                'required',
+                Rule::unique('resources')->ignore($resource->id),
+            ],
+            'icon' => 'nullable|string|max:255',
+            'is_active' => 'required|boolean',
+        ]);
+
+        // Evitar que se ponga a sí mismo como padre
+        if ($request->parent_id == $resource->id) {
+            return redirect()->back()
+                ->withErrors(['parent_id' => 'El recurso no puede ser su propio padre'])
+                ->withInput();
+        }
+
+        $resource->update([
+            'module_id' => $request->module_id,
+            'parent_id' => $request->parent_id,
+            'name' => $request->name,
+            'route' => $request->route,
+            'icon' => $request->icon,
+            'order' => $request->order,
+            'is_active' => $request->is_active,
+        ]);
+
+        session()->flash('success', 'El tipo de recurso ' . $resource->name . ' fue actualizado correctamente');
+
+        return redirect()->route('admin.resources.index');
     }
 
     /**
@@ -90,6 +130,10 @@ class ResourceController extends Controller
      */
     public function destroy(Resource $resource)
     {
-        //
+
+        $name = $resource->name;
+
+        $resource->delete();
+        return redirect()->back()->with('success', "El recurso {$name} fue eliminado exitosamente");
     }
 }

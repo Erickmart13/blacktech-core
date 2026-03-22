@@ -26,9 +26,12 @@ trait GeneratesCode
 
     protected function generateUniqueCode($name)
     {
-        // 🔥 usar slug estilo Laravel
-        $baseCode = Str::slug(Str::ascii($name), '_');
-        // Ej: "Datos Maestros" → "datos_maestros"
+        $moduleCode = $this->module?->code ?? '';
+
+        $baseCode = Str::slug(
+            Str::ascii($moduleCode . '_' . $name),
+            '_'
+        );
 
         $code = $baseCode;
         $counter = 1;
@@ -43,10 +46,6 @@ trait GeneratesCode
     protected function codeExists($code)
     {
         $query = static::where('code', $code);
-
-        if (!empty($this->module_id)) {
-            $query->where('module_id', $this->module_id);
-        }
 
         if ($this->exists) {
             $query->where('id', '!=', $this->id);

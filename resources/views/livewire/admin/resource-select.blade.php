@@ -17,10 +17,8 @@
     <div class="md:w-3/6">
         <label class="block text-gray-700 text-sm font-bold mb-2">Padre (opcional)</label>
         <select wire:model="parent_id" name="parent_id"
-            class="border rounded p-2 w-full
-            {{ empty($parents) ? 'disabled' : '' }}>
-            <option value="">--
-            Menú principal --</option>
+            class="border rounded p-2 w-full {{ empty($parents) ? 'disabled' : '' }}">
+            <option value="">-- Menú principal --</option>
             @foreach ($parents as $parent)
                 <option value="{{ $parent->id }}">
                     {{ str_repeat('— ', $parent->level) }} {{ $parent->name }}

@@ -24,6 +24,6 @@
         @livewire('admin.resource-table')
         <x-modal-global id="delete-record" title="Eliminar registro" method="DELETE"
             message="¿Seguro que deseas eliminar este registro?" buttonText="Eliminar"
-            buttonColor="bg-red-600 hover:bg-red-700" :route="route('admin.modules.destroy', '__ID__')" />
+            buttonColor="bg-red-600 hover:bg-red-700" :route="route('admin.resources.destroy', '__ID__')" />
     </div>
 </x-app-layout>

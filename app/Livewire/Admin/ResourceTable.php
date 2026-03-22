@@ -191,16 +191,4 @@ final class ResourceTable extends PowerGridComponent
         }
         return $buttons;
     }
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }
