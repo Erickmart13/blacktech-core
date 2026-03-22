@@ -63,9 +63,10 @@ class ResourceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Resource $resource)
+    public function show($id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+        return view('admin.resources.show', compact('resource'));
     }
 
     /**
