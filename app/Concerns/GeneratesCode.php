@@ -26,20 +26,32 @@ trait GeneratesCode
 
     protected function generateUniqueCode($name)
     {
-        // Normalización
-        $baseCode = Str::ascii($name);            // Quito Aéreo -> Quito Aereo
-        $baseCode = strtoupper($baseCode);        // -> QUITO AEREO
-        $baseCode = preg_replace('/[^A-Z0-9]+/', '_', $baseCode); // -> QUITO_AEREO
-        $baseCode = trim($baseCode, '_');         // quitar _ de inicio/fin
+        // 🔥 usar slug estilo Laravel
+        $baseCode = Str::slug(Str::ascii($name), '_');
+        // Ej: "Datos Maestros" → "datos_maestros"
 
         $code = $baseCode;
         $counter = 1;
 
-        while (static::where('code', $code)->exists()) {
+        while ($this->codeExists($code)) {
             $code = $baseCode . '_' . $counter;
             $counter++;
         }
 
         return $code;
+    }
+    protected function codeExists($code)
+    {
+        $query = static::where('code', $code);
+
+        if (!empty($this->module_id)) {
+            $query->where('module_id', $this->module_id);
+        }
+
+        if ($this->exists) {
+            $query->where('id', '!=', $this->id);
+        }
+
+        return $query->exists();
     }
 }

@@ -34,7 +34,6 @@ class RolesAndPermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             // Roles
-           
             [
                 'name' => 'roles.crear',
                 'type' => 'Roles',
@@ -63,8 +62,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // Permisos
-            
+            // Modulos
             [
                 'name' => 'modulos.crear',
                 'type' => 'Modulos',
@@ -93,56 +91,31 @@ class RolesAndPermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-
-            // Operaciones
-
+            // Recursos
             [
-                'name' => 'operaciones.crear',
-                'type' => 'Operaciones',
+                'name' => 'recursos.crear',
+                'type' => 'Recursos',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'operaciones.ver',
-                'type' => 'Operaciones',
+                'name' => 'recursos.ver',
+                'type' => 'Recursos',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'operaciones.editar',
-                'type' => 'Operaciones',
+                'name' => 'recursos.editar',
+                'type' => 'Recursos',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'operaciones.eliminar',
-                'type' => 'Operaciones',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            [
-                'name' => 'operaciones.finalizar',
-                'type' => 'Operaciones',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'operaciones.cancelar',
-                'type' => 'Operaciones',
-                'guard_name' => 'web',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'operaciones.imprimir',
-                'type' => 'Operaciones',
+                'name' => 'recursos.eliminar',
+                'type' => 'Recursos',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -390,7 +363,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // === Asignar permisos ===
         $admin->syncPermissions(\Spatie\Permission\Models\Permission::all());
-        $operador->syncPermissions(['operaciones.ver', 'operaciones.ver']);
+        $operador->syncPermissions(['recursos.ver', 'recursos.ver']);
 
         // === Asignar rol al usuario 1 ===
         $user = User::find(1);

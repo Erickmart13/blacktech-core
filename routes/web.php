@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\MasterData\StatusApplicationController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\MasterData\StatusController;
-
+use App\Http\Controllers\Admin\ResourceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified'])
             ->group(function () {
 
                 Route::resource('modules', ModuleController::class);
+                Route::resource('resources', ResourceController::class);
+
 
                 Route::prefix('master-data')
                     ->name('master-data.')

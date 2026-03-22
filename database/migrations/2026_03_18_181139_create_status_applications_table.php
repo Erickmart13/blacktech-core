@@ -19,7 +19,7 @@ return new class extends Migration
             // Evita duplicados por status_id + applies_to
             $table->unique(['status_id', 'applies_to']);
 
-            // LLaves foráneas
+            // Auditoría
             $table->timestamps();
             $table->foreignId('created_by')->nullable();
             $table->foreignId('updated_by')->nullable();

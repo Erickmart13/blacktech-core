@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('page-title', 'Administración - Roles')
+    @section('page-title', 'Administración - Módulos')
 
     <div class="flex p-4 mr-4 pl-6 px-3 gap-2 ">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -22,7 +22,7 @@
             <x-alert type="warning" :message="session('warning')" />
         @endif
         @livewire('admin.module-table')
-       <x-modal-global id="delete-record" title="Eliminar registro" method="DELETE"
+        <x-modal-global id="delete-record" title="Eliminar registro" method="DELETE"
             message="¿Seguro que deseas eliminar este registro?" buttonText="Eliminar"
             buttonColor="bg-red-600 hover:bg-red-700" :route="route('admin.modules.destroy', '__ID__')" />
     </div>
