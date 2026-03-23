@@ -15,14 +15,11 @@ class StatusApplicationController extends Controller
      */
     public function __construct()
     {
-        // Inicio y Ver
-        $this->middleware('permission:estadosAsignar.ver')->only('index', 'show');
-        // Crear 
-        $this->middleware('permission:estadosAsignar.crear')->only('create', 'store');
-        // Editar 
-        $this->middleware('permission:estadosAsignar.editar')->only('edit', 'update');
-        // Eliminar 
-        $this->middleware('permission:estadosAsignar.eliminar')->only('destroy');
+        $this->middleware('permission:sistema_asignar_estados.index')->only(['index']);
+        $this->middleware('permission:sistema_asignar_estados.show')->only(['show']);
+        $this->middleware('permission:sistema_asignar_estados.create')->only(['create', 'store']);
+        $this->middleware('permission:sistema_asignar_estados.edit')->only(['edit', 'update']);
+        $this->middleware('permission:sistema_asignar_estados.destroy')->only(['destroy']);
     }
 
     public function index()

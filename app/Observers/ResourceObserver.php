@@ -13,7 +13,7 @@ class ResourceObserver
      */
     public function created(Resource $resource): void
     {
-        $actions = ['index', 'view', 'create', 'edit', 'delete'];
+        $actions = ['index', 'show', 'create', 'edit', 'destroy'];
 
         $moduleCode = $resource->module->name;
 

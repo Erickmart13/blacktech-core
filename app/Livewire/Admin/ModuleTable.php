@@ -111,7 +111,7 @@ final class ModuleTable extends PowerGridComponent
         /** @var \App\Models\Amin\User $user */
         $user = Auth::user();
         //Solo mostrar si el usuario tiene permiso de ver
-        if ($user && $user->can('modulos.ver')) {
+        if ($user && $user->can('administracion_modulos.show')) {
             $buttons[] = Button::add('show')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -129,7 +129,7 @@ final class ModuleTable extends PowerGridComponent
                 ->route('admin.modules.show', ['module' => $row->id]);
         }
         //Solo mostrar si el usuario tiene permiso de editar
-        if ($user && $user->can('modulos.editar')) {
+        if ($user && $user->can('administracion_modulos.edit')) {
             $buttons[] = Button::add('edit')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -146,7 +146,7 @@ final class ModuleTable extends PowerGridComponent
                 ->route('admin.modules.edit', ['module' => $row->id]);
         }
         // Solo mostrar si el usuario tiene permiso para eliminar
-        if ($user && $user->can('modulos.eliminar')) {
+        if ($user && $user->can('administracion_modulos.destroy')) {
             $buttons[] =  Button::add('destroy')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')

@@ -135,7 +135,7 @@ final class ResourceTable extends PowerGridComponent
         /** @var \App\Models\Amin\User $user */
         $user = Auth::user();
         //Solo mostrar si el usuario tiene permiso de ver
-        if ($user && $user->can('recursos.ver')) {
+        if ($user && $user->can('administracion_permisos.show')) {
             $buttons[] = Button::add('show')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -153,7 +153,7 @@ final class ResourceTable extends PowerGridComponent
                 ->route('admin.resources.show', ['resource' => $row->id]);
         }
         //Solo mostrar si el usuario tiene permiso de editar
-        if ($user && $user->can('recursos.editar')) {
+        if ($user && $user->can('administracion_permisos.edit')) {
             $buttons[] = Button::add('edit')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -170,7 +170,7 @@ final class ResourceTable extends PowerGridComponent
                 ->route('admin.resources.edit', ['resource' => $row->id]);
         }
         // Solo mostrar si el usuario tiene permiso para eliminar
-        if ($user && $user->can('recursos.eliminar')) {
+        if ($user && $user->can('administracion_permisos.destroy')) {
             $buttons[] =  Button::add('destroy')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')

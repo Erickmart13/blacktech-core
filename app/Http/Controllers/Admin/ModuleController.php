@@ -14,10 +14,11 @@ class ModuleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:modulos.ver')->only(['index', 'show']);
-        $this->middleware('permission:modulos.crear')->only(['create', 'store']);
-        $this->middleware('permission:modulos.editar')->only(['edit', 'update']);
-        $this->middleware('permission:modulos.eliminar')->only(['destroy']);
+        $this->middleware('permission:administracion_modulos.index')->only(['index']);
+        $this->middleware('permission:administracion_modulos.show')->only(['show']);
+        $this->middleware('permission:administracion_modulos.create')->only(['create', 'store']);
+        $this->middleware('permission:administracion_modulos.edit')->only(['edit', 'update']);
+        $this->middleware('permission:administracion_modulos.destroy')->only(['destroy']);
     }
 
     public function index()

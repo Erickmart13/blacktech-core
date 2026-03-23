@@ -19,7 +19,7 @@
         @endif
         <div class="p-0 overflow-x-auto">
             <div class="container p-2">
-                @canany(['estados.ver'])
+                @canany(['sistema_estados.index'])
                     <!--Titulo General -->
                     <div class="flex items-center gap-4">
                         <div class="flex-1 border-t border-gray-300"></div>
@@ -30,7 +30,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
 
 
-                    @can('estados.ver')
+                    @can('sistema_estados.index')
                         <a href="{{ route('admin.master-data.statuses.index') }}"
                             class="p-4 bg-white border-2 rounded-xl shadow hover:bg-gray-300 transition">
                             <h2 class="font-semibold">Tipos de estados</h2>
@@ -39,7 +39,7 @@
                         </a>
                     @endcan
 
-                    @can('estadosAsignar.ver')
+                    @can('sistema_asignar_estados.index')
                         <a href="{{ route('admin.master-data.status-applications.index') }}"
                             class="p-4 bg-white border-2 rounded-xl shadow hover:bg-gray-300 transition">
                             <h2 class="font-semibold">Asignación de estados</h2>

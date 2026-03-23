@@ -6,6 +6,7 @@ use App\Concerns\GeneratesCode;
 use App\Concerns\HasAuditable;
 use App\Concerns\HasOrder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
 
 class Resource extends Model
 {
@@ -25,6 +26,18 @@ class Resource extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function generatePermissions()
+    {
+        $actions = ['index', 'show', 'create', 'edit', 'destroy'];
+
+        foreach ($actions as $action) {
+            Permission::firstOrCreate(
+                ['name' => $this->code . '.' . $action],
+                ['type' => $this->module->code]
+            );
+        }
+    }
 
     public function creator()
     {

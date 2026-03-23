@@ -14,9 +14,10 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         $modules = [
-            ['name' => 'Administración', 'code' => 'administracion', 'order' => 1],
-            ['name' => 'Sistema', 'code' => 'sistema', 'order' => 2],
-            ['name' => 'Configuración', 'code' => 'configuracion', 'order' => 3],
+            ['name' => 'DashBoard', 'code' => 'dashboard', 'order' => 1],
+            ['name' => 'Administración', 'code' => 'administracion', 'order' => 2],
+            ['name' => 'Sistema', 'code' => 'sistema', 'order' => 3],
+            ['name' => 'Configuración', 'code' => 'configuracion', 'order' => 4],
         ];
 
         foreach ($modules as $module) {

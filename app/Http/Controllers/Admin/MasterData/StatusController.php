@@ -12,14 +12,11 @@ class StatusController extends Controller
 {
     public function __construct()
     {
-        // Inicio y Ver
-        $this->middleware('permission:estados.ver')->only('index', 'show');
-        // Crear 
-        $this->middleware('permission:estados.crear')->only('create', 'store');
-        // Editar 
-        $this->middleware('permission:estados.editar')->only('edit', 'update');
-        // Eliminar 
-        $this->middleware('permission:estados.eliminar')->only('destroy');
+        $this->middleware('permission:sistema_estados.index')->only(['index']);
+        $this->middleware('permission:sistema_estados.show')->only(['show']);
+        $this->middleware('permission:sistema_estados.create')->only(['create', 'store']);
+        $this->middleware('permission:sistema_estados.edit')->only(['edit', 'update']);
+        $this->middleware('permission:sistema_estados.destroy')->only(['destroy']);
     }
     public function index(Request $request)
     {

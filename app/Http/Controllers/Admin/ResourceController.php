@@ -13,6 +13,15 @@ class ResourceController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('permission:administracion_recursos.index')->only(['index']);
+        $this->middleware('permission:administracion_recursos.show')->only(['show']);
+        $this->middleware('permission:administracion_recursos.create')->only(['create', 'store']);
+        $this->middleware('permission:administracion_recursos.edit')->only(['edit', 'update']);
+        $this->middleware('permission:administracion_recursos.destroy')->only(['destroy']);
+    }
+
     public function index()
     {
         return view('admin.resources.index');

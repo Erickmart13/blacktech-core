@@ -12,7 +12,7 @@
     <!-- Lista de CRM -->
     <ul class="">
         {{-- Dashboard --}}
-        @can('dashboard.inicio')
+        @can('dashboard_dashboard.index')
             <li class="pt-2 pl-2">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
@@ -76,7 +76,7 @@
         </div>
         <div class="border-t border-gray-200 my-2"></div>
         {{-- Administración --}}
-        @canany(['usuarios.inicio', 'roles.inicio', 'sistema.inicio', 'modulos.ver'])
+        @canany(['administracion_usuarios.index', 'administracion_roles.index', 'sistema.inicio', 'modulos.ver'])
             <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('users.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.permissions.*') || request()->routeIs('admin.resources.*') || request()->routeIs('roles.*') || request()->routeIs('admin.master-data.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
@@ -95,41 +95,13 @@
                 </button>
                 <ul x-show="open" x-transition class=" ">
                     {{-- Usuarios --}}
-                    @can('modulos.ver')
-                        <li class="mt-1 w-full pr-2 pl-2">
-                            <a href="{{ route('admin.modules.index') }}"
-                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.modules.*') ? 'bg-gray-300' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="size-6  text-indigo-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z" />
-                                </svg>
-
-                                <span class="font-light">Módulos</span>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('recursos.ver')
-                        <li class="mt-1 w-full pr-2 pl-2">
-                            <a href="{{ route('admin.resources.index') }}"
-                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.resources.*') ? 'bg-gray-300' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="size-6 text-violet-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                </svg>
-                                <span class="font-light">Recursos</span>
-                            </a>
-                        </li>
-                    @endcan
-                    {{-- Usuarios --}}
-                    @can('usuarios.inicio')
+                    @can('administracion_usuarios.index')
                         <li class="mt-1 w-full pr-2 pl-2">
                             {{-- <a href="{{ route('users.index') }}" --}}
                             <a href="#"
                                 class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('users.*') ? 'bg-gray-300' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6 text-indigo-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="size-6 text-indigo-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
@@ -138,7 +110,7 @@
                         </li>
                     @endcan
                     {{-- Roles --}}
-                    @can('roles.inicio')
+                    @can('administracion_roles.index')
                         <li class="mt-1 w-full pr-2 pl-2">
                             <a href="#"
                                 class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('roles.*') ? 'bg-gray-300' : '' }}">
@@ -156,7 +128,7 @@
                         </li>
                     @endcan
                     {{-- Permisos --}}
-                    @can('administracion_permisos.view')
+                    @can('administracion_permisos.index')
                         <li class="mt-1 w-full pr-2 pl-2">
                             <a href="{{ route('admin.permissions.index') }}"
                                 class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.permissions.*') ? 'bg-gray-300' : '' }}">
@@ -173,7 +145,36 @@
                             </a>
                         </li>
                     @endcan
-                    @can('administracion_datos_maestros.view')
+                    {{-- Módulos --}}
+                    @can('administracion_modulos.index')
+                        <li class="mt-1 w-full pr-2 pl-2">
+                            <a href="{{ route('admin.modules.index') }}"
+                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.modules.*') ? 'bg-gray-300' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6  text-indigo-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z" />
+                                </svg>
+
+                                <span class="font-light">Módulos</span>
+                            </a>
+                        </li>
+                    @endcan
+                    {{-- Recursos --}}
+                    @can('administracion_recursos.index')
+                        <li class="mt-1 w-full pr-2 pl-2">
+                            <a href="{{ route('admin.resources.index') }}"
+                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.resources.*') ? 'bg-gray-300' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6 text-violet-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                </svg>
+                                <span class="font-light">Recursos</span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('sistema_datos_maestros.index')
                         {{-- sistema --}}
                         <li class="mt-1 w-full pr-2 pl-2 pb-2">
                             <a href="{{ route('admin.master-data.index') }}"
