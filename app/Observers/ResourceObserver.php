@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Admin\Resource;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class ResourceObserver
 {
@@ -13,13 +14,20 @@ class ResourceObserver
     public function created(Resource $resource): void
     {
         $actions = ['index', 'view', 'create', 'edit', 'delete'];
-        $moduleCode = $resource->module->code;
+
+        $moduleCode = $resource->module->name;
+
+        // 👇 obtener rol admin
+        $adminRole = Role::firstOrCreate(['name' => 'Administrador']);
 
         foreach ($actions as $action) {
-            Permission::firstOrCreate(
+            $permission = Permission::firstOrCreate(
                 ['name' => $resource->code . '.' . $action],
                 ['type' => $moduleCode]
             );
+
+            // 👇 asignar al admin
+            $adminRole->givePermissionTo($permission);
         }
     }
 

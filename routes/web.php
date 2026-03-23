@@ -23,7 +23,7 @@ Route::middleware(['auth', 'verified'])
 
                 Route::resource('modules', ModuleController::class);
                 Route::resource('resources', ResourceController::class);
-
+                Route::resource('permissions', PermissionController::class);
 
                 Route::prefix('master-data')
                     ->name('master-data.')
