@@ -77,7 +77,7 @@
         <div class="border-t border-gray-200 my-2"></div>
         {{-- Administración --}}
         @canany(['administracion_usuarios.index', 'administracion_roles.index', 'sistema.inicio', 'modulos.ver'])
-            <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('users.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.permissions.*') || request()->routeIs('admin.resources.*') || request()->routeIs('roles.*') || request()->routeIs('admin.master-data.*') ? 'true' : 'false' }} }">
+            <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('users.*') || request()->routeIs('admin.roles.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.permissions.*') || request()->routeIs('admin.resources.*') || request()->routeIs('roles.*') || request()->routeIs('admin.master-data.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
                     <div class="flex items-center gap-3">
@@ -112,9 +112,9 @@
                     {{-- Roles --}}
                     @can('administracion_roles.index')
                         <li class="mt-1 w-full pr-2 pl-2">
-                            <a href="#"
-                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('roles.*') ? 'bg-gray-300' : '' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-purple-500" viewBox="0 0 24 24"
+                            <a href="{{ route('admin.roles.index') }}"
+                                class="flex items-center gap-1 p-2 text-base font-semibold text-gray-900 hover:bg-gray-300 hover:bg-opacity-60 focus:bg-blue-100 transition-colors rounded-lg mx-8 {{ request()->routeIs('admin.roles.*') ? 'bg-gray-300' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-fuchsia-500" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                     stroke-linejoin="round"
                                     class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
