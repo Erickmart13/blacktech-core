@@ -41,7 +41,13 @@ class ResourceController extends Controller
         $request->validate([
             'module_id' => ['required', 'exists:modules,id'],
             'parent_id' => ['nullable', 'exists:resources,id'],
-            'name' => ['required', 'string', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('resources')
+                    ->where(fn($q) => $q->where('module_id', $request->module_id)),
+            ],
             'code' => ['nullable', 'string', 'max:50'],
             'icon' => 'nullable|string|max:255',
         ]);
@@ -94,10 +100,13 @@ class ResourceController extends Controller
         $request->validate([
             'module_id' => ['required', 'exists:modules,id'],
             'parent_id' => ['nullable', 'exists:resources,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'code' => [
+            'name' => [
                 'required',
-                Rule::unique('resources')->ignore($resource->id),
+                'string',
+                'max:255',
+                Rule::unique('resources')
+                    ->where(fn($q) => $q->where('module_id', $request->module_id))
+                    ->ignore($resource->id),
             ],
             'icon' => 'nullable|string|max:255',
             'is_active' => 'required|boolean',
