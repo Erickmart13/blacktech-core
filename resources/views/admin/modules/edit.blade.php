@@ -37,7 +37,7 @@
                 </div>
                 <div class="mb-3 w-full max-w-full md:px-3 shrink-0 md:w-4/12 md:flex-0 md:mt-5">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="code">Código</label>
-                    <input id="code" name="code" value="{{ old('code', $module) }}" type="text"
+                    <input readonly id="code" name="code" value="{{ old('code', $module) }}" type="text"
                         placeholder="Ingrese el nombre " class="border rounded p-2 w-full ">
                     @error('code')
                         <span class="text-red-500">{{ $message }}</span>

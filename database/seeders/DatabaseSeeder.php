@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
 
         // Roles primero
         $this->call([
+            ModuleSeeder::class,
+        ]);
+        // Roles primero
+        $this->call([
             RolesAndPermissionsSeeder::class,
         ]);
     }

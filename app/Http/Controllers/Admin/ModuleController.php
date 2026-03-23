@@ -107,12 +107,6 @@ class ModuleController extends Controller
                 'max:255',
                 Rule::unique('modules', 'name')->ignore($module->id),
             ],
-            'code' => [
-                'required',
-                'string',
-                'max:50',
-                Rule::unique('modules', 'code')->ignore($module->id),
-            ],
             'order' => [
                 'required',
                 'numeric',
@@ -122,7 +116,6 @@ class ModuleController extends Controller
 
         $module->update([
             'name' => $request->name,
-            'code' => $request->code,
             'order' => $request->order,
             'is_active' => $request->is_active
         ]);
