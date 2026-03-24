@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Admin\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +12,10 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
-use Spatie\Permission\Models\Role;
 
-final class RoleTable extends PowerGridComponent
+final class UserTable extends PowerGridComponent
 {
-    public string $tableName = 'roleTable';
+    public string $tableName = 'userTable';
 
     public function setUp(): array
     {
@@ -32,7 +32,14 @@ final class RoleTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Role::query();
+        return User::query()
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->select(
+                'users.*',
+                'roles.name as rol_name',
+
+            ); // alias igual al ejemplo
     }
 
     public function relationSearch(): array
@@ -44,28 +51,35 @@ final class RoleTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('created_at')
-
-            ->add('created_at_formatted', function ($model) {
-                return Carbon::parse($model->created_at)->format('Y-m-d');
-            });
+            ->add('name')
+            ->add('role_name')
+            ->add('email')
+            ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
-
+            // Column::make('Id', 'id'),
             Column::make('Nombre', 'name')
                 ->sortable()
-                ->searchable()
-                ->fixedOnResponsive(),
+                ->searchable(),
 
-            Column::make('Autenticación', 'guard_name')
+            Column::make('Correo', 'email')
                 ->sortable()
                 ->searchable(),
-            Column::make('Fecha Creación', 'created_at_formatted', 'created_at')
+            Column::make('Rol', 'rol_name', 'roles.name') // referencia real a la tabla roles
+                ->searchable()
+                ->sortable(),
+
+            // Column::make('Fecha Creación', 'created_at_formatted', 'users.created_at')
+            //     ->sortable()
+            //     ->searchable(),
+
+            Column::make('Último Login', 'last_login_at',)
                 ->sortable()
                 ->searchable(),
+
             Column::make('Estado', 'is_active')
                 ->sortable()
                 ->searchable()
@@ -91,18 +105,19 @@ final class RoleTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        Role::query()->find($id)->update([
+        User::query()->find($id)->update([
             $field => e($value),
         ]);
     }
 
-    public function actions(Role $row): array
+
+    public function actions(User $row): array
     {
         $buttons = [];
         /** @var \App\Models\Admin\User $user */
         $user = Auth::user();
         //Solo mostrar si el usuario tiene permiso de ver
-        if ($user && $user->can('administracion_roles.show')) {
+        if ($user && $user->can('administracion_usuarios.show')) {
             $buttons[] = Button::add('show')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
@@ -117,36 +132,36 @@ final class RoleTable extends PowerGridComponent
                         Ver
                     </span>'
                 )
-                ->route('admin.roles.show', ['role' => $row->id]);
+                ->route('admin.users.show', ['user' => $row->id]);
         }
         //Solo mostrar si el usuario tiene permiso de editar
-        if ($user && $user->can('administracion_roles.edit')) {
+        if ($user && $user->can('administracion_usuarios.edit')) {
             $buttons[] = Button::add('edit')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
                 ->slot(
-                    '<div class="inline-flex items-center justify-center px-1 py-1 rounded-md bg-green-700 text-slate-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                            </svg>
-                        </div>
-                        <span class="absolute left-1/2 -translate-x-1/2 -top-4 px-2 py-0.5 text-xs text-white bg-gray-700 rounded opacity-0 group-hover:opacity-100 transition">
+                    '<div class="inline-flex items-center justify-center px-1 py-1 rounded-md bg-green-600 text-slate-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                        </svg>
+                    </div>
+                    <span class="absolute left-1/2 -translate-x-1/2 -top-4 px-2 py-0.5 text-xs text-white bg-gray-700 rounded opacity-0 group-hover:opacity-100 transition">
                         Editar
-                        </span>'
+                    </span>'
                 )
-                ->route('admin.roles.edit', ['role' => $row->id]);
+                ->route('admin.users.edit', ['user' => $row->id]);
         }
         // Solo mostrar si el usuario tiene permiso para eliminar
-        if ($user && $user->can('administracion_roles.destroy')) {
+        if ($user && $user->can('administracion_usuarios.destroy')) {
             $buttons[] =  Button::add('destroy')
                 ->id()
                 ->class('relative group py-1.5 cursor-pointer hover:-translate-y-px bg-clip-text')
                 ->attributes([
-                    'onclick' => "openModal('delete-record', {$row->id}, '" . route('admin.roles.destroy', $row->id) . "')",
+                    'onclick' => "openModal('delete-record', {$row->id}, '" . route('admin.users.destroy', $row->id) . "')",
                     'type'    => 'button',
                 ])
                 ->slot(
-                    '<div class="inline-flex items-center justify-center px-1 py-1 rounded-md bg-red-600 text-slate-100">
+                    '<div class="inline-flex items-center justify-center px-1 py-1 rounded-md bg-red-500 text-slate-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                         </svg>
@@ -158,4 +173,16 @@ final class RoleTable extends PowerGridComponent
         }
         return $buttons;
     }
+
+    /*
+    public function actionRules($row): array
+    {
+       return [
+            // Hide button edit for ID 1
+            Rule::button('edit')
+                ->when(fn($row) => $row->id === 1)
+                ->hide(),
+        ];
+    }
+    */
 }

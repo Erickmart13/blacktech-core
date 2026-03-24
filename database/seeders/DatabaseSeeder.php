@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 
 use App\Models\Admin\User;
+use Database\Seeders\ModuleSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,10 +21,12 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
 
-        User::factory()->create([
-            'name' => 'Erick Guayanay',
-            'email' => 'sistemas@denkelservice.com',
-        ]);
+      User::create([
+    'name' => 'Erick Guayanay',
+    'code' => 'BT-USU0001', // 🔥 TEMPORAL
+    'email' => 'sistemas@denkelservice.com',
+    'password' => Hash::make('password'),
+]);
 
         // Roles primero
         $this->call([

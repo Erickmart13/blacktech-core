@@ -3,6 +3,9 @@
 namespace App\Models\Admin;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Concerns\HasAuditable;
+use App\Concerns\HasAutoCode;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,6 +17,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasAuditable;
+    use HasAutoCode;
+    protected $codePrefix = 'BT-USU';
     use HasApiTokens;
     use HasRoles;
     /** @use HasFactory<UserFactory> */
@@ -30,8 +36,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'code',
         'email',
         'password',
+        'last_login_at',
+        'last_login_ip',
+        'is_active',
     ];
 
     /**
@@ -65,6 +75,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function editor()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

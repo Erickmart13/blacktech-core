@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -20,7 +21,13 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('is_active')->default(true);
+            // Auditoría
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
             $table->timestamps();
+            $table->timestamp('last_login_at')->nullable();
+            $table->string('last_login_ip', 45)->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
