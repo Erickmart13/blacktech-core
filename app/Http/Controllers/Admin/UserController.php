@@ -6,6 +6,7 @@ use App\Models\Admin\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -22,13 +23,6 @@ class UserController extends Controller
     public function index(Request $request)
     {
         return view('admin.users.index');
-    }
-    public function show($id)
-    {
-        $user = User::findOrFail($id);
-        $role = Role::all();
-        $permissions = $user->getAllPermissions();
-        return view('admin.users.show', compact('user', 'role', 'permissions'));
     }
 
     public function create()
@@ -70,7 +64,7 @@ class UserController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            
+
             'email_verified_at' => now()
         ]);
 
@@ -80,52 +74,66 @@ class UserController extends Controller
         session()->flash('success', 'El usuario ' . $user->name . ' fue creado correctamente.');
         return redirect()->route('admin.users.index');
     }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $role = Role::all();
+        $permissions = Permission::all()->groupBy('type')->map(function ($group) {
+            return $group->groupBy(function ($permission) {
+                return explode('.', $permission->name)[0];
+            });
+        });
+        return view('admin.users.show', compact('user', 'role', 'permissions'));
+    }
+
     public function edit($id)
     {
-        $users = $this->findModelOrRedirect(
-            User::class,
-            $id,
-            'users.index',
-            'El cliente que intentas editar ya no existe.',
-            // importante para evitar consultas extra
-        );
+        // $users = $this->findModelOrRedirect(
+        //     User::class,
+        //     $id,
+        //     'users.index',
+        //     'El cliente que intentas editar ya no existe.',
+        //     // importante para evitar consultas extra
+        // );
 
-        if ($users instanceof \Illuminate\Http\RedirectResponse) return $users;
+        // if ($users instanceof \Illuminate\Http\RedirectResponse) return $users;
 
         // $statusApplications = StatusApplication::where('applies_to', 'Usuario')->get();
-
+        $user = User::findOrFail($id);
 
         $roles = Role::all();
-        return view('admin.users.edit', compact('users',  'statusApplications', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)
     {
-        $users = $this->findModelOrRedirect(
-            User::class,
-            $id,
-            'users.index',
-            'El cliente que intentas editar ya no existe.',
-        );
+        // $users = $this->findModelOrRedirect(
+        //     User::class,
+        //     $id,
+        //     'users.index',
+        //     'El cliente que intentas editar ya no existe.',
+        // );
 
-        if ($users instanceof \Illuminate\Http\RedirectResponse) return $users;
+        // if ($users instanceof \Illuminate\Http\RedirectResponse) return $users;
 
-        // Concurrencia
-        if ($redirect = $this->checkOptimisticConcurrency(
-            $users,
-            $request->input('updated_at'),
-            'users.edit',
-            'Este Usuario fue modificado por otro usuario. Por favor revisa los cambios antes de guardar.',
-            ['user' => $users->id]
-        )) {
-            return $redirect;
-        }
-
+        // // Concurrencia
+        // if ($redirect = $this->checkOptimisticConcurrency(
+        //     $users,
+        //     $request->input('updated_at'),
+        //     'users.edit',
+        //     'Este Usuario fue modificado por otro usuario. Por favor revisa los cambios antes de guardar.',
+        //     ['user' => $users->id]
+        // )) {
+        //     return $redirect;
+        // }
+        $users = User::findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => "required|email|unique:users,email,{$id}",
             'password' => 'confirmed',
             'role_id' => 'required|exists:roles,id',
+            'is_active' => 'required|boolean',
 
         ]);
 
@@ -134,7 +142,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
-            'status_application_id' => $request->status_application_id,
+            // 'status_application_id' => $request->status_application_id,
+            'is_active' => $request->is_active,
         ]);
 
         $roleName = Role::find($request->role_id)?->name;
@@ -143,7 +152,7 @@ class UserController extends Controller
             $users->syncRoles([$roleName]);
         }
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', 'El usuario ' . $users->name . ' actualizado correctamente.');
     }
 
@@ -153,7 +162,7 @@ class UserController extends Controller
         $userName = $user->name;
         $user->delete();
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', "El usuario  $userName ha sido eliminado correctamente.");
     }
 }

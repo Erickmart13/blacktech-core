@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
 
-      User::create([
-    'name' => 'Erick Guayanay',
-    'code' => 'BT-USU0001', // 🔥 TEMPORAL
-    'email' => 'sistemas@denkelservice.com',
-    'password' => Hash::make('password'),
-]);
+        User::create([
+            'name' => 'Erick Guayanay',
+            'code' => 'BT-USU0001', // 🔥 TEMPORAL
+            'email' => 'sistemas@denkelservice.com',
+            'password' => 'password',
+        ]);
 
         // Roles primero
         $this->call([
