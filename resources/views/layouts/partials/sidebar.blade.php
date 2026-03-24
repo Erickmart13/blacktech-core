@@ -77,7 +77,7 @@
         <div class="border-t border-gray-200 my-2"></div>
         {{-- Administración --}}
         @canany(['administracion_usuarios.index', 'administracion_roles.index', 'sistema.inicio', 'modulos.ver'])
-            <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.roles.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.permissions.*') || request()->routeIs('admin.resources.*') || request()->routeIs('roles.*') || request()->routeIs('admin.master-data.*') ? 'true' : 'false' }} }">
+            <li class="pt-2 pl-2 mb-2" x-data="{ open: {{ request()->routeIs('admin.users.*') || request()->routeIs('admin.roles.*') || request()->routeIs('admin.modules.*') || request()->routeIs('admin.permissions.*') || request()->routeIs('admin.resources.*') || request()->routeIs('roles.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open"
                     class="flex items-center justify-between w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
                     <div class="flex items-center gap-3">
@@ -174,6 +174,37 @@
                             </a>
                         </li>
                     @endcan
+
+                </ul>
+            </li>
+        @endcanany
+        <!-- Seccione Sistema -->
+        <div class="flex justify-start pl-5 mt-2 opacity-40 ">
+            <label>Sistema</label>
+        </div>
+        <div class="border-t border-gray-200 my-2"></div>
+        {{-- Gestión Sistemas --}}
+        @canany(['sistema_datos_maestros.index', 'proveedores'])
+            <li class="pt-2 pl-2 mb-4" x-data="{ open: {{ request()->routeIs('admin.master-data.*') || request()->routeIs('beneficiaries.*') || request()->routeIs('suppliers.*') ? 'true' : 'false' }} }">
+                <button @click="open = !open"
+                    class="flex items-center justify-between w-full gap-3 px-2 py-2 text-base font-semibold text-gray-900 hover:bg-gray-300 rounded-s-lg">
+                    <div class="flex items-center gap-3">
+                        <!-- SVG de Carpeta / Comercial -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6 text-orange-800">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5h18M3 12h18M3 16.5h18" />
+                        </svg>
+                        <span>Sistema</span>
+                    </div>
+                    <svg :class="{ 'rotate-90': open }" class="w-5 h-5 mr-2 transition-transform"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+
+                </button>
+                <ul x-show="open" x-transition class=" ">
+                    {{-- Operaciones --}}
                     @can('sistema_datos_maestros.index')
                         {{-- sistema --}}
                         <li class="mt-1 w-full pr-2 pl-2 pb-2">
